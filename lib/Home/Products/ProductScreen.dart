@@ -9,14 +9,14 @@ class product1 extends StatelessWidget {
   List<ProductModel> products = [
     ProductModel(
         image: 'https://m.media-amazon.com/images/I/71I-5jWK--L._UL1500_.jpg',
-        name: 'Formal Pants',
+        name: 'Pants',
         discrption: 'Good Quality',
         offer: '20% off',
         price: '\$1099'),
     ProductModel(
         image:
             'https://5.imimg.com/data5/BR/GE/MY-43691381/formal-shirts-for-men-dark-green-shirt-mens-supplier-500x500.jpg',
-        name: 'Formal Shirt',
+        name: 'Shirt',
         discrption: 'Good Quality',
         offer: '10% off',
         price: '\$999'),
@@ -38,13 +38,8 @@ class product1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DeatilScreen(),
-          )),
-      // appBar: AppBar(
+    return Scaffold(
+      // appBar: ApBar(
       //   backgroundColor: Colors.white,
       //   iconTheme: const IconThemeData(color: Colors.black),
       //   title: const Center(
@@ -70,7 +65,7 @@ class product1 extends StatelessWidget {
       //     )
       //   ],
       // ),
-      child: Column(
+      body: Column(
         children: [
           SizedBox(
             height: 80,
@@ -90,71 +85,79 @@ class product1 extends StatelessWidget {
               ),
               itemCount: products.length,
               itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.2),
-                        color: Colors.grey),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Image.network(
-                            '${products.elementAt(index).image}',
-                            height: 170,
-                            width: 320,
-                            fit: BoxFit.contain,
+                return InkWell(
+                  onTap: (() => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DeatilScreen(productAxis: products[index]),
+                      ))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.2),
+                          color: Colors.grey),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Image.network(
+                              '${products.elementAt(index).image}',
+                              height: 170,
+                              width: 320,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                '${products.elementAt(index).name}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                '${products.elementAt(index).discrption}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                              Text(
-                                '${products.elementAt(index).offer}',
-                                style: const TextStyle(
-                                  color: Colors.purple,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                              Text(
-                                '${products.elementAt(index).price}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Padding(
-                                  padding: EdgeInsets.only(left: 82),
-                                  child: Icon(
-                                    Icons.shopping_cart,
-                                    color: Color.fromARGB(255, 229, 226, 230),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  '${products.elementAt(index).name}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  '${products.elementAt(index).discrption}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                Text(
+                                  '${products.elementAt(index).offer}',
+                                  style: const TextStyle(
+                                    color: Colors.purple,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                Text(
+                                  '${products.elementAt(index).price}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Padding(
+                                    padding: EdgeInsets.only(left: 82),
+                                    child: Icon(
+                                      Icons.shopping_cart,
+                                      color: Color.fromARGB(255, 229, 226, 230),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

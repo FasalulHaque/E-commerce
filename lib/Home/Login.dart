@@ -1,12 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:baabtra/Home/Dashbard/Dashbard.dart';
 import 'package:baabtra/Home/Products/ProductAppBar.dart';
 import 'package:baabtra/Home/Products/ProductScreen.dart';
 import 'package:baabtra/Home/regiter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  LoginScreen({super.key});
+  TextEditingController mailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,18 +52,16 @@ class LoginScreen extends StatelessWidget {
                 height: 40,
               ),
 
-              // ignore: avoid_unnecessary_containers
-              // Container(
-              // padding: const EdgeInsets.all(10),
 
-              const Padding(
-                padding: EdgeInsets.all(9.0),
+              Padding(
+                padding: const EdgeInsets.all(9.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: mailController,
+                  decoration: const InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
                     border: UnderlineInputBorder(),
-                    labelText: 'User Name',
+                    labelText: 'Email',
                   ),
                 ),
               ),
@@ -67,10 +69,11 @@ class LoginScreen extends StatelessWidget {
                 height: 0,
               ),
 
-              const Padding(
-                padding: EdgeInsets.all(9.0),
+              Padding(
+                padding: const EdgeInsets.all(9.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: passwordController,
+                  decoration: const InputDecoration(
                       // suffix: TextButton(
                       //   onPressed: () {},
                       //   child: const Text(
@@ -90,12 +93,28 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Dashbard(),
-                    ),
-                  ),
+                  onPressed: () async {
+                    final auth = FirebaseAuth.instance;
+                    try {
+                      await auth.signInWithEmailAndPassword(
+                          email: mailController.text,
+                          password: passwordController.text);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const Dashbard()),
+                        ),
+                      );
+                    } on FirebaseAuthException catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                          content: Text(e.code),));
+                      // ignore: avoid_print
+                      print(e.code);
+                       // ignore: avoid_print
+                      print('Login Failed');
+                    }
+                  },
                   // ignore: sort_child_properties_last
                   child: const Text('Login'),
                   style: ElevatedButton.styleFrom(
@@ -143,7 +162,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Register(),
+                        builder: (context) =>  Register(),
                       ),
                     ),
                     child: const Text(
